@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/css/mycss.css" rel="stylesheet">
+    <link href="/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <title>Resultados</title>
+</head>
+<body id="page-top">
+
+<div id="wrapper">
+    <div th:insert="fragments/navbar :: navbar" class="navbar-body"></div>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div th:insert="fragments/topBar :: topBar"></div>
+        <div id="content">
+            <div class="container-fluid">
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h2>Resultado de su último diagnóstico</h2>
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-5 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <canvas id="grhPracticeChart" width="500" height="500"
+                                            style="display: block; width: 200px; height: 200px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-7 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center" th:each="conclusion : ${grhPractice}">
+                                    <div th:if="${conclusion.description != 'Resultados'}">
+                                    <h6 class="font-weight-bold" th:text="${conclusion.description}"></h6>
+                                    <p class="small text-justify" th:text="${conclusion.conclusion}"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xl-5 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <canvas id="implementationLevelsChart" width="500" height="500"
+                                            style="display: block; width: 200px; height: 200px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-7 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center" th:each="conclusion : ${implementationLevels}">
+                                        <h6 class="font-weight-bold" th:text="${conclusion.description}"></h6>
+                                        <p class="small text-justify" th:text="${conclusion.conclusion}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" th:id="directTraitDiv">
+                    <div class="col-xl-5 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <canvas id="directTraitChart" width="500" height="500"
+                                            style="display: block; width: 200px; height: 200px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-7 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center" th:each="conclusion : ${directTrait}">
+                                    <div th:if="${conclusion.description != 'Resultados'}">
+                                        <h6 class="font-weight-bold" th:text="${conclusion.description}"></h6>
+                                        <p class="small text-justify" th:text="${conclusion.conclusion}"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" th:id="combinedTraitDiv">
+                    <div class="col-xl-5 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <canvas id="combinedTraitChart" width="500" height="500"
+                                            style="display: block; width: 200px; height: 200px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-7 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center" th:each="conclusion : ${combinedTrait}">
+                                    <div th:if="${conclusion.description != 'Resultados'}">
+                                        <h6 class="font-weight-bold" th:text="${conclusion.description}"></h6>
+                                        <p class="small text-justify" th:text="${conclusion.conclusion}"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            <div class="row" th:id="organizationalCultureDiv">
+                <div class="col-xl-5 col-md-6 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <canvas id="organizationalCultureChart" width="500" height="500"
+                                        style="display: block; width: 200px; height: 200px;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-7 col-md-6 mb-4">
+                    <div class="card border-left-primary shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center" >
+                                   <p class="small text-justify">Para un análisis de los resultados, por favor contactar al administrador</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        <div th:insert="fragments/footer::footer"></div>
+    </div>
+</div>
+
+<div th:insert="fragments/topBar::logoutModal"></div>
+</body>
+
+<script src="/jquery/jquery.min.js"></script>
+<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/js/sb-admin-2.min.js"></script>
+<script src="/chart.js/chart.js"></script>
+<script type="text/javascript" th:inline="javascript">
+
+
+var grhPractice = [[${grhPractice}]];
+var implementationLevels = [[${implementationLevels}]];
+var directTrait = [[${directTrait}]];
+var combinedTrait = [[${combinedTrait}]];
+var organizationalCulture = [[${organizationalCulture}]];
+
+
+var grhPracticeChartId = document.getElementById("grhPracticeChart");
+var implementationLevelsChartId = document.getElementById("implementationLevelsChart");
+var directTraitChartId = document.getElementById("directTraitChart");
+var combinedTraitChartId = document.getElementById("combinedTraitChart");
+var organizationalCultureChartId = document.getElementById("organizationalCultureChart");
+
+grhPracticeLabels = [];
+grhPracticeData = [];
+implementationLevelsLabels = [];
+implementationLevelsData = [];
+directTraitLabels = [];
+directTraitData = [];
+combinedTraitLabels = [];
+combinedTraitData = [];
+organizationalCultureLabels = [];
+organizationalCultureData = [];
+
+for (const grh of grhPractice){
+
+    grhPracticeLabels.push(grh.description);
+    grhPracticeData.push(grh.percentage);
+}
+
+for (const il of implementationLevels){
+    implementationLevelsLabels.push(il.description);
+    implementationLevelsData.push(il.percentage);
+}
+
+for (const dt of directTrait){
+    directTraitLabels.push(dt.description);
+    directTraitData.push(dt.percentage);
+}
+
+for (const ct of combinedTrait){
+    combinedTraitLabels.push(ct.description);
+    combinedTraitData.push(ct.percentage);
+}
+
+for (const oc of organizationalCulture){
+
+    organizationalCultureLabels.push(oc.description);
+    organizationalCultureData.push(oc.percentage);
+}
+
+createChart("Prácticas de GRH", grhPracticeLabels, grhPracticeData, grhPracticeChartId);
+createChart("Niveles de Implementación", implementationLevelsLabels, implementationLevelsData, implementationLevelsChartId);
+
+if(directTraitData.length == 0){
+ $('#directTraitDiv').hide();
+  $('#combinedTraitDiv').hide();
+
+} else {
+createChart("Cultura Organizacional Rasgos Directos", directTraitLabels, directTraitData, directTraitChartId);
+createChart("Cultura Organizacional Rasgos Combinados", combinedTraitLabels, combinedTraitData, combinedTraitChartId);
+}
+
+if(organizationalCultureData.length == 0){
+$('#organizationalCultureDiv').hide();
+} else {
+createChart("Percepciones de la Cultura Organizacional Ética", organizationalCultureLabels, organizationalCultureData, organizationalCultureChartId);
+}
+function createChart (chartName, chartLabels, chartData, chartId) {
+
+var createChartData = {
+  labels: chartLabels,
+  datasets: [{
+    label: chartName,
+    backgroundColor: "rgba(200,0,0,0.2)",
+    data: chartData,
+    fill: true,
+    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+    borderColor: 'rgb(54, 162, 235)',
+    borderWidth:1
+  }]
+};
+
+var radarChart = new Chart(chartId, {
+  type: 'bar',
+  data: createChartData,
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+});
+
+
+}
+
+    var user = $('#userEmail').text();
+    $('#userEmail').text(user.substring(0,user.indexOf('@')));
+
+    </script>
+</html>

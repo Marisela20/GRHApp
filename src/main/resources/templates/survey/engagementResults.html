@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/css/mycss.css" rel="stylesheet">
+    <link href="/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <title>Resultados</title>
+</head>
+<body id="page-top">
+
+<div id="wrapper">
+    <div th:insert="fragments/navbar :: navbar" class="navbar-body"></div>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div th:insert="fragments/topBar :: topBar"></div>
+        <div id="content">
+            <div class="container-fluid">
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h2>Resultado de su último diagnóstico</h2>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-xl-5 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <canvas id="organizationPersonChart" width="500" height="500"
+                                            style="display: block; width: 200px; height: 200px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-7 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center" th:each="conclusion : ${organizationPerson}">
+                                    <div th:if="${conclusion.description != 'Resultados'}">
+                                        <h6 class="font-weight-bold" th:text="${conclusion.description}"></h6>
+                                        <p class="small text-justify" th:text="${conclusion.conclusion}"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-5 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <canvas id="employeeEngagementChart" width="500" height="500"
+                                            style="display: block; width: 200px; height: 200px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-7 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center" th:each="conclusion : ${employeeEngagement}">
+                                    <div th:if="${conclusion.description != 'Resultados'}">
+                                        <h6 class="font-weight-bold" th:text="${conclusion.description}"></h6>
+                                        <p class="small text-justify" th:text="${conclusion.conclusion}"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        <div th:insert="fragments/footer::footer"></div>
+    </div>
+</div>
+
+<div th:insert="fragments/topBar::logoutModal"></div>
+</body>
+
+<script src="/jquery/jquery.min.js"></script>
+<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/js/sb-admin-2.min.js"></script>
+<script src="/chart.js/chart.js"></script>
+<script type="text/javascript" th:inline="javascript">
+
+
+var organizationPerson = [[${organizationPerson}]];
+var employeeEngagement = [[${employeeEngagement}]];
+
+var organizationalPersonChartId = document.getElementById("organizationPersonChart");
+var employeeEngagementChartId = document.getElementById("employeeEngagementChart");
+
+organizationPersonLabels = [];
+organizationPersonData = [];
+employeeEngagementLabels = [];
+employeeEngagementData = [];
+
+
+for (const op of organizationPerson){
+
+    organizationPersonLabels.push(op.description);
+    organizationPersonData.push(op.percentage);
+}
+
+for (const e of employeeEngagement){
+
+    employeeEngagementLabels.push(e.description);
+    employeeEngagementData.push(e.percentage);
+}
+
+
+
+createChart("Ajuste Persona-Organización", organizationPersonLabels, organizationPersonData, organizationalPersonChartId);
+createChart("Engagement del Empleado", employeeEngagementLabels, employeeEngagementData, employeeEngagementChartId);
+
+function createChart (chartName, chartLabels, chartData, chartId) {
+
+var createChartData = {
+  labels: chartLabels,
+  datasets: [{
+    label: chartName,
+    data: chartData,
+    fill: true,
+    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+    borderColor: 'rgb(28,200,138,1)',
+    borderWidth:1
+  }]
+};
+
+var radarChart = new Chart(chartId, {
+  type: 'bar',
+  data: createChartData,
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+});
+
+
+}
+
+    var user = $('#userEmail').text();
+    $('#userEmail').text(user.substring(0,user.indexOf('@')));
+
+    </script>
+</html>

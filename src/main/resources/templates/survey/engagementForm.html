@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link href="/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/css/mycss.css" rel="stylesheet">
+    <link href="/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <title>Cultura ética y Engagement del empleado</title>
+</head>
+<body id="page-top">
+
+<div id="wrapper">
+    <div th:insert="fragments/navbar :: navbar" class="navbar-body"></div>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div th:insert="fragments/topBar :: topBar"></div>
+        <div id="content">
+            <div class="container-fluid">
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h2>Diagnóstico de Gestión de Recursos Humanos</h2>
+                </div>
+
+                <div class="card shadow mb-4" th:switch="${surveyQuestions.empty}">
+                    <div class="card-body text-center" th:case="${true}">
+
+                        <h4>Haz finalizado la encuesta con exito</h4>
+                        <div class="row col-12">
+                        <img class="send-survey" src="/img/documento.png"/>
+                            </div>
+                        <a class="btn btn-success" th:href="@{/survey/closeSurvey(surveyId=${survey.id})}" role="button">Enviar respuestas y ver resultados</a>
+
+                    </div>
+                    <div class="card-body" th:case="*">
+                        <div class="row col-12">
+                            <h4 class="fw-bold text-center mt-3"></h4>
+                            <div class="col-12">
+                                <form th:each="question: ${surveyQuestions}" class="col-12 bg-white px-4"
+                                      th:action="@{/survey/saveSurvey}"
+                                      th:object="${survey}" th:id="${question.id}" method="post">
+                                    <input type="hidden" th:field="*{id}" id="surveyId"/>
+                                    <div class="mb-4" id="bodyForm" th:if="${question.father == null}">
+                                        <div class="card border-left-primary shadow h-100 py-2">
+                                            <div class="card-body">
+                                                <div class="form-check mb-2">
+                                                    <label th:if="${question.father == null}"
+                                                           th:text="${question.description}" class="my-1 mr-2"></label>
+                                                    <select class="custom-select my-1 mr-sm-2 form-control"
+                                                            name="answerId" th:id="answer + ${question.id}"
+                                                            onchange="save(this);">
+                                                        <option selected value="">--</option>
+                                                        <option th:each="answer : ${surveyQuestions}"
+                                                                th:if="${answer.father?.id == question.id && !answer.isSublevel}"
+                                                                th:value="${answer.id}"
+                                                                th:text="${answer.description}"/>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="col-12">
+                                <button type="submit" onclick="goBack()" th:id="backButton" class="btn btn-primary">Atras</button>
+                                <button type="submit" onclick="goAhead()" th:id="nextButton" class="btn btn-primary">Siguiente</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div th:insert="fragments/footer::footer"></div>
+    </div>
+</div>
+
+<div th:insert="fragments/topBar::logoutModal"></div>
+
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+</body>
+
+<script src="/jquery/jquery.min.js"></script>
+<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/js/sb-admin-2.min.js"></script>
+<script src="/datatables/jquery.dataTables.min.js"></script>
+<script src="/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="/js/demo/datatables-demo.js"></script>
+
+<script th:inline="javascript">
+
+var currentQuestionId = 0;
+var lastQuestionId = 0;
+var currentAnswerId = 0;
+var surveyAnswers = [[${survey.surveyDetailList}]];
+var surveyQuestions = [[${surveyQuestions}]];
+var showSubLevel = false;
+var section = 0;
+
+//get the id of the questions shows in the screen
+var currentQuestion = surveyQuestions.map(function(a) {
+if(a.father == null){
+section = a.section;
+return a.id}
+});
+
+
+
+$('#nextButton').hide();
+
+//get the answers of the current question in the screen
+var currentAnswers = surveyAnswers.filter(function(item) {
+    return (currentQuestion.indexOf(parseInt(item.question.id)) > -1);
+});
+
+
+var currentQuestions = surveyQuestions.map(function(a) {
+if(!a.father && a.question){
+    return a.id}
+});
+console.log(currentQuestions);
+lastQuestionId = currentQuestions[0];
+firstQuestionId = currentQuestions[currentQuestions.length-6];
+console.log(firstQuestionId);
+var nextQuestionId = 0;
+if (lastQuestionId > firstQuestionId) {
+    nextQuestionId = lastQuestionId;
+    lastQuestionId = firstQuestionId;
+} else {
+nextQuestionId = firstQuestionId;
+}
+
+console.log(nextQuestionId);
+
+//asign to the question on screen the response
+for (const answer of currentAnswers) {
+    currentAnswerId = answer.answer.id;
+    currentQuestionId = answer.question.id;
+
+    if (answer.answer.id != 999) {
+        $('#answer' + answer.question.id).val(answer.answer.id);
+    }
+
+    if(answer){
+        $('#nextButton').show();
+    }
+}
+if (lastQuestionId == 230) {
+    $('#backButton').hide();
+}
+
+
+function save(sel) {
+    $('#nextButton').show();
+    currentQuestionId = $(sel).closest("form").attr('id');
+    answerId = $(sel).val();
+    var data = {
+        "surveyId": $('#surveyId').val(),
+        "questionId": currentQuestionId,
+        "answerId": answerId,
+        "subQuestionId": 999,
+        "subAnswerId": 999,
+        "nextPage": true,
+        "diagnosticId": 2
+    }
+    $.ajax({
+        url: "/survey/saveSurvey",
+        method: "POST",
+        data: data,
+        dataType: 'text',
+        success: function(data) {
+            console.log("Respuesta guardada con exito");
+        },
+        error: function(xhr, status, errorThrown) {
+            console.log("Ocurrio un error al guardar la respuesta. " + status);
+        }
+    });
+
+}
+
+
+
+
+function goBack() {
+    window.location.href = "/survey/surveyForm?nextPage=false&questionId="+lastQuestionId+"&diagnosticId=2";
+}
+
+function goAhead() {
+    var next = true;
+    for (const answerSelect of currentQuestions) {
+     if (typeof answerSelect != 'undefined' && ($('#answer'+answerSelect).val() === "")) {
+        next = false;
+        break;
+        }
+     }
+
+     if(next){
+        window.location.href = "/survey/surveyForm?nextPage=true&questionId="+nextQuestionId+"&diagnosticId=2";
+    } else {
+        alert("Por favor diligencia todas las preguntas para poder continuar");
+    }
+}
+
+    var user = $('#userEmail').text();
+    $('#userEmail').text(user.substring(0,user.indexOf('@')));
+
+
+</script>
+
+</html>

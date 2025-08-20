@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Registro</title>
+
+    <link th:href="@{/fontawesome-free/css/all.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/mycss.css}" rel="stylesheet" />
+
+    <script th:src="@{/jquery/jquery.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/sb-admin-2.min.js}"></script>
+
+    <style>
+        body { background: #f8f9fc; }
+        .form-shell { max-width: 980px; margin: 32px auto; }
+        .section-title { font-weight: 600; font-size: 1.1rem; margin: 6px 0 14px; }
+        .divider { height: 1px; background: #eef0f3; margin: 8px 0 16px; }
+        .actions { margin-top: 16px; display: flex; justify-content: flex-end; }
+    </style>
+</head>
+<body>
+
+<div class="container form-shell">
+    <div class="card shadow">
+        <div class="card-body">
+            <h3 class="mb-3">Registro</h3>
+
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+            <form th:action="@{/register}" th:object="${userAccount}" method="post" id="registerForm">
+                <!-- Si CSRF está habilitado, esto funciona; si lo deshabilitaste, no rompe -->
+                <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                <!-- ============ Organización ============ -->
+                <div class="section-title">Datos de la organización</div>
+                <div class="divider"></div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control" th:field="*{organization.name}" required />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Dirección</label>
+                        <input type="text" class="form-control" th:field="*{organization.address}" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Correo</label>
+                        <input type="email" class="form-control" th:field="*{organization.email}" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Teléfono</label>
+                        <input type="text" class="form-control" th:field="*{organization.phone}" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Fecha de creación</label>
+                        <input type="text" class="form-control" placeholder="dd/MM/yyyy"
+                               th:field="*{organization.creationDate}" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Actividad de la organización</label>
+                        <input type="text" class="form-control" th:field="*{organization.economicActivity}" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <!-- SECTOR con opciones fijas y value=0 en placeholder -->
+                    <div class="form-group col-md-6">
+                        <label>Sector al que pertenece</label>
+                        <select class="custom-select form-control" th:field="*{organization.economicArea.id}" required>
+                            <option value="0" selected>Seleccione un sector</option>
+                            <option value="1">Agrícola</option>
+                            <option value="2">Industrial</option>
+                            <option value="3">Servicios</option>
+                            <option value="4">Organización híbrida / BIC / Empresa B / Cuarto sector</option>
+                            <option value="5">Entidad pública</option>
+                            <option value="6">Entidad sin ánimo de lucro</option>
+                            <option value="7">Institución de educación</option>
+                        </select>
+                    </div>
+
+                    <!-- NÚMERO DE TRABAJADORES (rango fijo), placeholder 0 -->
+                    <div class="form-group col-md-6">
+                        <label>Número de trabajadores</label>
+                        <select class="form-control" th:field="*{organization.quantityEmployees}" required>
+                            <option value="0" selected>Seleccione un rango</option>
+                            <option value="2">1 – 2</option>
+                            <option value="5">3 – 5</option>
+                            <option value="10">6 – 10</option>
+                            <option value="20">11 – 20</option>
+                            <option value="50">21 – 50</option>
+                            <option value="100">51 – 100</option>
+                            <option value="200">101 – 200</option>
+                            <option value="500">201 – 500</option>
+                            <option value="1000">501 – 1000</option>
+                            <option value="2000">1001 – 2000</option>
+                            <option value="999999">Más de 2000</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Trabajador a cargo</label>
+                        <input type="text" class="form-control" th:field="*{organization.worker}" />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Cargo</label>
+                        <input type="text" class="form-control" th:field="*{organization.workerPosition}" />
+                    </div>
+                </div>
+
+                <!-- ============ Usuario ============ -->
+                <div class="section-title mt-3">Datos del usuario</div>
+                <div class="divider"></div>
+
+                <div class="form-group">
+                    <label>Nombre completo</label>
+                    <input type="text" class="form-control" th:field="*{name}" required />
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label>Usuario</label>
+                        <input type="text" class="form-control" th:field="*{username}" required />
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label>Correo</label>
+                        <input type="email" class="form-control" th:field="*{email}" required />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" class="form-control" th:field="*{password}" required />
+                </div>
+
+                <div class="form-row">
+                    <!-- NIVEL / CARGO con opciones fijas y placeholder 0 -->
+                    <div class="form-group col-md-6">
+                        <label>Nivel / Cargo</label>
+                        <select class="form-control" th:field="*{levelPosition.id}" required>
+                            <option value="0" selected>Seleccione un nivel</option>
+                            <option value="1">Operativo</option>
+                            <option value="2">Administrativo sin personal a cargo</option>
+                            <option value="3">Mando medio con personal a cargo</option>
+                            <option value="4">Gerencia / Dirección</option>
+                            <option value="5">Presidencia</option>
+                            <option value="6">Junta directiva</option>
+                            <option value="7">Docente</option>
+                            <option value="8">Otros</option>
+                        </select>
+                    </div>
+
+                    <!-- Rol oculto (el backend fija USER por defecto) -->
+                    <input type="hidden" th:field="*{role.id}" value="0" />
+                </div>
+
+                <div class="actions">
+                    <button type="submit" class="btn btn-primary btn-lg">Registrarme</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+
+

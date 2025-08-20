@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="utf-8">
+    <title>Dashboard</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link th:href="@{'https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700;900&display=swap'}" rel="stylesheet">
+
+    <!-- Estilos -->
+    <link th:href="@{/fontawesome-free/css/all.min.css}" rel="stylesheet">
+    <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
+    <link th:href="@{/css/mycss.css}" rel="stylesheet">
+
+    <!-- Scripts -->
+    <script th:src="@{/jquery/jquery.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/sb-admin-2.min.js}"></script>
+    <script th:inline="javascript">
+        console.log("User Info: ", [[${userInfo}]]);
+    </script>
+</head>
+
+<body id="page-top">
+<div th:if="${userInfo != null}">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div th:replace="fragments/navbar :: navbar"></div>
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Topbar -->
+            <div th:replace="fragments/topBar :: topBar"></div>
+
+            <!-- Main Content -->
+            <div id="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- Recurso 1: Inclusión de Personas con Discapacidad -->
+                        <div class="col-xl-6 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">
+                                        Recurso 1: Inclusión de Personas con Discapacidad
+                                    </h6>
+                                </div>
+                                <div class="card-body text-center">
+                                    <a th:href="@{/survey/discapacitySurvey/start}">
+                                        <img class="img-fluid mb-4" style="width:25rem;cursor:pointer" src="/img/Recurso 1.png" alt="Recurso 1">
+                                    </a>
+                                    <br>
+                                    <a th:href="@{/survey/discapacitySurvey/start}" class="btn btn-primary">Diligenciar</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recurso 2: Personas +B -->
+                        <div class="col-xl-6 col-md-6 mb-4">
+                            <div class="card border-left-success shadow h-100 py-2">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-success">Recurso 2: Personas +B</h6>
+                                </div>
+                                <div class="card-body text-center">
+                                    <a th:href="@{'/survey/surveyForm?diagnosticId=1&questionId=0&nextPage=true'}">
+                                        <img class="img-fluid mb-4" style="width:25rem;cursor:pointer" src="/img/Recurso 2.png" alt="Recurso 2">
+                                    </a>
+                                    <br>
+                                    <a th:href="@{'/survey/surveyForm?diagnosticId=1&questionId=0&nextPage=true'}" class="btn btn-success">Diligenciar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div th:replace="fragments/footer :: footer"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de logout -->
+<div th:replace="fragments/topBar :: logoutModal"></div>
+</body>
+</html>

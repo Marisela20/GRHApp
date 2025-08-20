@@ -1,0 +1,108 @@
+<div th:fragment="navbar" style="display: contents; max-height: 100%;">
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion navbar-border" id="accordionSidebar">
+
+        <!-- Logo -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/dashboard" style="height:100px;">
+            <div class="sidebar-brand-text mx-3">
+                <img src="/img/logo-navbar.png" style="height:90px;">
+            </div>
+        </a>
+
+        <hr class="sidebar-divider my-0">
+
+        <!-- Home -->
+        <li class="nav-item active">
+            <a class="nav-link" href="/dashboard">
+                <i class="fas fa-home icons"></i>
+                <span class="a-dark-color">Home</span>
+            </a>
+        </li>
+
+        <hr class="sidebar-divider">
+
+        <!-- Usuarios -->
+        <li class="nav-item"
+            sec:authorize="hasRole('ADMIN') or hasRole('ORGANIZATION')"
+            th:if="${hideNavRegistrationMenus} != true">
+            <a class="nav-link collapsed a-dark-color" href="#" data-toggle="collapse" data-target="#collapseUser"
+               aria-expanded="true" aria-controls="collapseUser">
+                <i class="fas fa-users icons"></i>
+                <span class="a-dark-color">Usuario</span>
+            </a>
+            <div id="collapseUser" class="collapse" aria-labelledby="headingUser" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <!-- ADMIN -->
+                    <div sec:authorize="hasRole('ADMIN')">
+                        <a class="collapse-item" href="/user/userList">Listar usuarios</a>
+                        <a class="collapse-item" href="/user/userForm">Registrar usuario</a>
+                    </div>
+                    <!-- ORGANIZATION -->
+                    <div sec:authorize="hasRole('ORGANIZATION')">
+                        <a class="collapse-item" href="/user/organizationUserList">Listar usuarios</a>
+                        <a class="collapse-item" href="/user/userForm">Registrar usuario</a>
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <!-- Organización -->
+        <li class="nav-item"
+            sec:authorize="hasRole('ADMIN')"
+            th:if="${hideNavRegistrationMenus} != true">
+            <a class="nav-link collapsed a-dark-color" href="#" data-toggle="collapse" data-target="#collapseOrganization"
+               aria-expanded="true" aria-controls="collapseOrganization">
+                <i class="fas fa-building icons"></i>
+                <span class="a-dark-color">Organización</span>
+            </a>
+            <div id="collapseOrganization" class="collapse" aria-labelledby="headingOrganization" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="/organization/organizationList">Listar organizaciones</a>
+                    <a class="collapse-item" href="/organization/organizationForm">Registrar organización</a>
+                </div>
+            </div>
+        </li>
+
+        <!-- Diagnóstico -->
+        <li class="nav-item">
+            <a class="nav-link collapsed a-dark-color" href="#" data-toggle="collapse" data-target="#collapseSurvey"
+               aria-expanded="true" aria-controls="collapseSurvey">
+                <i class="fas fa-file-signature icons"></i>
+                <span class="a-dark-color">Diagnóstico</span>
+            </a>
+            <div id="collapseSurvey" class="collapse" aria-labelledby="headingSurvey" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+
+                    <!-- Personas +B -->
+                    <span class="collapse-header text-dark font-weight-bold">Personas +B</span>
+                    <a class="collapse-item" sec:authorize="hasRole('ADMIN')" href="/survey/surveyList?diagnosticId=1">Listar Diagnóstico</a>
+                    <a class="collapse-item" href="/survey/surveyForm?nextPage=true&diagnosticId=1">Diligenciar Diagnóstico</a>
+
+                    <div class="dropdown-divider"></div>
+
+                    <!-- Inclusión Laboral -->
+                    <span class="collapse-header text-dark font-weight-bold">Inclusión Laboral</span>
+
+                    <a class="collapse-item" sec:authorize="hasRole('ADMIN')" href="/survey/discapacity/surveyList">Listar Diagnóstico</a>
+                    <a class="collapse-item" href="/survey/discapacitySurvey/start">Diligenciar Diagnóstico</a>
+
+                    <div class="dropdown-divider"></div>
+
+                    <!-- Todos los diagnósticos -->
+                    <a class="collapse-item text-info font-weight-bold" sec:authorize="hasRole('ADMIN')" href="/survey/allSurveyList">📋 Ver Todos</a>
+                </div>
+            </div>
+        </li>
+
+        <hr class="sidebar-divider">
+
+        <!-- Créditos -->
+        <li class="nav-item">
+            <a class="nav-link a-dark-color" href="/credits">
+                <i class="fas fa-book-open icons"></i>
+                <span class="a-dark-color">Créditos</span>
+            </a>
+        </li>
+
+        <hr class="sidebar-divider d-none d-md-block">
+    </ul>
+</div>

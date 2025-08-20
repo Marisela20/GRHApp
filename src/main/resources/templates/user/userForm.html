@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <link href="/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/css/mycss.css" rel="stylesheet">
+    <title th:text="${title}"></title>
+</head>
+<body id="page-top">
+
+<div id="wrapper">
+    <div th:insert="fragments/navbar :: navbar" class="navbar-body"></div>
+
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div th:insert="fragments/topBar :: topBar"></div>
+
+        <div id="content">
+            <div class="container-fluid">
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h2>Registrar Usuario</h2>
+                </div>
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <div th:if="${error}" class="alert alert-danger" role="alert">
+                            <p th:text="${error}"></p>
+                        </div>
+                        <form th:action="@{/user/saveUser}" th:object="${userAccount}" method="post">
+                            <div class="form-group row">
+                                <label for="name" class="col-sm-2 col-form-label">Nombre:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" th:field="*{name}" id="name" required>
+                                </div>
+
+                                <p class="col-sm-12 col-form-label" th:if="${#fields.hasErrors('name')}"
+                                   th:errors="*{name}"/></p>
+                            </div>
+                            <div class="form-group row">
+                                <label for="username" class="col-sm-2 col-form-label">Correo:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" th:field="*{username}" id="username" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="password" class="col-sm-2 col-form-label">Contraseña:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" th:field="*{password}" id="password" required>
+                                </div>
+                            </div>
+                            <div th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}">
+                                <div class="form-group row">
+                                    <label for="role" class="col-sm-2 col-form-label">Rol:</label>
+                                    <div class="col-sm-10">
+                                        <select class="custom-select my-1 mr-sm-2 form-control" th:field="*{role.name}"
+                                                name="role" id="role">
+                                            <option th:each="role : ${roleList}"
+                                                    th:value="${role.name}"
+                                                    th:text="${role.name}"/>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="organization" class="col-sm-2 col-form-label">Organización:</label>
+                                    <div class="col-sm-10">
+                                        <select class="custom-select my-1 mr-sm-2 form-control"
+                                                th:field="*{organization.name}" name="organization" id="organization">
+                                            <option selected value="">--</option>
+                                            <option th:each="organization : ${organizationList}"
+                                                    th:value="${organization.name}"
+                                                    th:text="${organization.name}+' '+${organization.address}"/>
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" value="0" name="isOrganization"/>
+                            </div>
+                            <input type="hidden" value="1" name="isOrganization"/>
+                            <div class="form-group row">
+                                <label for="password" class="col-sm-2 col-form-label">Cargo en la organización:</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" th:field="*{workerPosition}" id="workerPosition">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="role" class="col-sm-2 col-form-label">Nivel del cargo:</label>
+                                <div class="col-sm-10">
+                                    <select class="custom-select my-1 mr-sm-2 form-control" th:field="*{levelPosition.id}"
+                                            name="levelPosition" id="levelPosition">
+                                        <option th:each="levelPosition : ${levelPositionList}"
+                                                th:value="${levelPosition.id}"
+                                                th:text="${levelPosition.description}"/>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Registrar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div th:insert="fragments/footer::footer"></div>
+    </div>
+</div>
+
+<div th:insert="fragments/topBar::logoutModal"></div>
+
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+</body>
+
+<script src="/jquery/jquery.min.js"></script>
+<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/js/sb-admin-2.min.js"></script>
+<script th:inline="javascript">
+    var user = $('#userEmail').text();
+    $('#userEmail').text(user.substring(0,user.indexOf('@')));
+</script>
+</html>

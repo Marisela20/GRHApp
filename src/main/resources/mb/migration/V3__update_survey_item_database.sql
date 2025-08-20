@@ -1,0 +1,58 @@
+ALTER TABLE survey_item ADD COLUMN diagnostic_id int(11);
+ALTER TABLE survey ADD COLUMN diagnostic_id int(11);
+
+INSERT INTO survey_item (diagnostic_id) VALUES (1);
+UPDATE survey_item SET diagnostic_id = 1;
+
+INSERT INTO classification (id,description,total_points) VALUES (22,'CLARIDAD',20),(23,'CONGRUENCIA DIRECCION LOCAL',20),(24,'FACTIBILIDAD',20),(25,'APOYO',20),
+(26,'TRANSPARENCIA',20),(27,'DIALOGO',20),(28,'ESTIMULOS',20), (29,'AJUSTE PERSONA ORGANIZACION',5), (30,'ENGAGEMENT COGNITIVO',20), (31,'ENGAGEMENT EMOCIONAL',20),
+(32,'ENGAGEMENT COMPORTAMENTAL',20), (33,'CONGRUENCIA ALTA DIRECCION',20);
+
+INSERT INTO survey_item (id,description,classification_id, is_question, section, is_sublevel, diagnostic_id) VALUES
+(230,'La empresa es clara sobre cómo debo comportarme con los demás dentro de ella',22,1,1,0,2),
+(231,'La empresa es clara sobre cómo debo manejar la información confidencial de manera responsable',22,1,1,0,2),
+(232,'La empresa es clara sobre cómo debería interactuar con personas y organizaciones externas de manera responsable',22,1,1,0,2),
+(233,'En mi entorno de trabajo nos queda claro cómo deberíamos comportarnos de una manera responsable',22,1,1,0,2),
+(234,'Mi supervisor da un buen ejemplo de comportamiento ético',23,1,1,0,2),
+(235,'Mi supervisor comunica la importancia de la ética y la integridad con claridad y convicción',23,1,1,0,2),
+(236,'Mi supervisor hace lo que dice',23,1,1,0,2),
+(237,'Mi supervisor es honesto y confiable',23,1,1,0,2),
+(238,'El comportamiento de la junta directiva y la gerencia manifiestan las mismas normas y valores',33,1,1,0,2),
+(239,'La Junta directiva y la gerencia dan un buen ejemplo de comportamiento ético',33,1,1,0,2),
+(240,'La Junta directiva y la gerencia comunican la importancia de la ética y la integridad de manera clara y convincente',33,1,1,0,2),
+(241,'La Junta directiva y la gerencia nunca autorizan conductas poco éticas o ilegales para cumplir con las metas de la empresa',33,1,1,0,2),
+(242,'En mi entorno de trabajo inmediato no me solicitan que haga cosas que generan conflicto con mi conciencia',24,1,1,0,2),
+(243,'Para tener éxito en la organización no tengo que quebrantar mis normas y valores personales',24,1,1,0,2),
+(244,'Dispongo de los recursos suficientes para llevar a cabo mis tareas de manera responsable',24,1,1,0,2),
+(245,'En mi trabajo no me ponen bajo presión para romper las reglas',24,1,1,0,2),
+(246,'En mi entorno de trabajo inmediato todos buscan lo mejor para la empresa',25,1,1,0,2),
+(247,'En mi entorno de trabajo hay una relación de confianza mutua entre los empleados y los directivos',25,1,1,0,2),
+(248,'En mi entorno de trabajo todos toman en serio las normas y estándares existentes',25,1,1,0,2),
+(249,'En mi entorno de trabajo todos se tratan con respeto',25,1,1,0,2),
+(250,'Si un colega hace algo que no está permitido, el jefe se enterará',26,1,1,0,2),
+(251,'Si mi jefe hace algo que no está permitido, alguien en la empresa se enterará',26,1,1,0,2),
+(252,'En mi entorno de trabajo se realizan controles adecuados para detectar faltas y conductas no éticas',26,1,1,0,2),
+(253,'La gerencia está al tanto de situaciones y conductas no éticas que ocurren en mi entorno de trabajo',26,1,1,0,2),
+(254,'En mi entorno de trabajo hay suficientes posibilidades para discutir sobre conductas no éticas',27,1,1,0,2),
+(255,'En mi entorno de trabajo los informes sobre conductas no éticas se toman en serio',27,1,1,0,2),
+(256,'En mi entorno de trabajo hay suficientes posibilidades para discutir sobre dilemas éticos',27,1,1,0,2),
+(257,'En mi entorno de trabajo hay suficientes posibilidades para corregir conductas no éticas',27,1,1,0,2),
+(258,'En mi entorno de trabajo el comportamiento ético es altamente valorado',28,1,1,0,2),
+(259,'En mi entorno de trabajo el comportamiento ético es recompensado',28,1,1,0,2),
+(260,'En mi entorno de trabajo los empleados serán sancionados si se comportan de manera poco ética',28,1,1,0,2),
+(261,'Si reporto una conducta poco ética a la gerencia, considero que los involucrados serían disciplinados independiente de sus cargos',28,1,1,0,2),
+(262,'Las cosas que valoro en la vida son muy similares a las cosas que valora mi organización',29,1,1,0,2),
+(263,'Mis valores personales coinciden con los valores y la cultura de mi organización',29,1,1,0,2),
+(264,'Los valores y la cultura de mi organización encajan bien con las cosas que valoro en la vida.',29,1,1,0,2),
+(265,'Estoy realmente enfocado cuando estoy trabajando.',30,1,1,0,2),
+(266,'Me concentro en mi trabajo cuando estoy en mi sitio de trabajo.',30,1,1,0,2),
+(267,'Le doy mucha atención a la responsabilidad de mi trabajo.',30,1,1,0,2),
+(268,'Cuando estoy en mi sitio de trabajo, me enfoco en mi trabajo.',30,1,1,0,2),
+(269,'Trabajar en mi organización actual tiene un gran significado personal para mí.',31,1,1,0,2),
+(270,'Tengo un alto sentido de pertenencia hacia mi trabajo.',31,1,1,0,2),
+(271,'Creo en la misión y en el propósito de mi organización.',31,1,1,0,2),
+(272,'Me importa el futuro de mi organización.',31,1,1,0,2),
+(273,'Hago mi mejor esfuerzo para trabajar más allá de lo que se espera de mí.',32,1,1,0,2),
+(274,'Normalmente hago más de lo que se espera de mí para ayudar a mi equipo a tener éxito.',32,1,1,0,2),
+(275,'Estoy dispuesto a hacer un esfuerzo adicional sin que me lo pidan.',32,1,1,0,2),
+(276,'Trabajo más duro de lo esperado para ayudar a que mi organización sea exitosa.',32,1,1,0,2);

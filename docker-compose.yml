@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  mysql-grhapp:
+    image: mysql:8.0
+    container_name: mysql-grhapp
+    ports:
+      - "3306:3306"  # <-- IMPORTANTE: coincide con application.yml
+    environment:
+      MYSQL_ROOT_PASSWORD: D0s+Un0=3
+      MYSQL_DATABASE: grhdatabase
+    volumes:
+      - ./src/main/resources/mb/migration:/docker-entrypoint-initdb.d
+

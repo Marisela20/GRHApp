@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
+
+<head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/css/index.css" rel="stylesheet">
+    <link href="/css/mycss.css" rel="stylesheet">
+</head>
+
+<body class="bg-gradient-primary">
+<section class="vh-100">
+    <div class="container-fluid h-custom">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+
+            <!-- Imagen lateral -->
+            <div style="height: 100%;" class="login-c-image">
+                <img src="/img/login-image.png" style="height: 100%;" />
+            </div>
+
+            <!-- Logo -->
+            <div class="login-logo-style">
+                <img src="/img/logo.png" style="max-width: 100%; max-height: 100%;" />
+            </div>
+
+            <!-- Formulario -->
+            <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1 login-form">
+                <form th:action="@{/login}" method="post">
+
+                    <!-- Mensaje de error de login -->
+                    <div th:if="${param.error}" class="alert alert-danger form-outline mb-4">
+                        ❌ Por favor verifique su usuario y contraseña.
+                    </div>
+
+                    <!-- Mensaje de registro exitoso -->
+                    <div th:if="${param.registered}" class="alert alert-success form-outline mb-4">
+                        ✅ Usuario registrado con éxito. Ahora puedes iniciar sesión.
+                    </div>
+
+                    <!-- Mensaje de logout -->
+                    <div th:if="${param.logout}" class="alert alert-info form-outline mb-4">
+                        ✅ Has cerrado sesión correctamente.
+                    </div>
+
+                    <!-- Usuario -->
+                    <div class="form-outline mb-4">
+                        <input type="text" class="form-control" placeholder="Usuario" name="username" required />
+                    </div>
+
+                    <!-- Contraseña -->
+                    <div class="form-outline mb-3">
+                        <input type="password" class="form-control" placeholder="Contraseña" name="password" required />
+                    </div>
+
+                    <!-- Botón Iniciar sesión -->
+                    <div class="text-center text-lg-start mt-4 pt-2">
+                        <button type="submit" class="btn btn-primary btn-lg">Iniciar sesión</button>
+                    </div>
+
+                    <!-- Botón Registrarse -->
+                    <div class="text-center text-lg-start mt-4 pt-2">
+                        <a th:href="@{/register}" class="btn btn-secondary btn-lg">Registrarse</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

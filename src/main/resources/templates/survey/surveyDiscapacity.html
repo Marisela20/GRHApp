@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Encuesta de Inclusión Laboral</title>
+  <link th:href="@{/fontawesome-free/css/all.min.css}" rel="stylesheet">
+  <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
+  <link th:href="@{/css/mycss.css}" rel="stylesheet">
+  <script th:src="@{/jquery/jquery.min.js}"></script>
+  <script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/js/sb-admin-2.min.js}"></script>
+  <style>
+    select.form-control { width: 100%; }
+    select.form-control option { white-space: normal; }
+  </style>
+</head>
+<body id="page-top">
+<div id="wrapper">
+  <div th:replace="fragments/navbar :: navbar"></div>
+
+  <div id="content-wrapper" class="d-flex flex-column">
+    <div th:replace="fragments/topBar :: topBar"></div>
+
+    <div id="content">
+      <div class="container-fluid">
+        <h1 class="h3 mb-4 text-gray-800">Encuesta de Inclusión Laboral</h1>
+
+        <!-- Mensaje si ya fue completada -->
+        <div th:if="${survey.completedStatus}">
+          <div class="alert alert-success mb-4">
+            Esta encuesta ya fue completada. ¡Gracias por tu participación!
+          </div>
+        </div>
+
+        <!-- Mostrar formulario si NO ha sido completada -->
+        <div th:unless="${survey.completedStatus}">
+          <p th:if="${questions != null}" th:text="'Total de preguntas: ' + ${#lists.size(questions)}"
+             class="text-muted mb-3 small"></p>
+          <p th:if="${questions == null}" class="text-danger small">No hay preguntas disponibles</p>
+
+          <form th:if="${questions != null}" th:action="@{/survey/saveDiscapacitySurvey}" method="post" id="surveyForm">
+            <!-- CSRF -->
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+            <!-- Hidden comunes -->
+            <input type="hidden" name="surveyId" th:value="${survey.id}"/>
+            <input type="hidden" name="diagnosticId" th:value="${survey.diagnosticId}"/>
+            <input type="hidden" name="currentSection" th:value="${currentSection}"/>
+            <input type="hidden" id="actionField" name="action" value=""/>
+
+            <div class="card shadow mb-4">
+              <div class="card-header">
+                <h5 class="m-0 font-weight-bold text-primary" th:switch="${currentSection}">
+                  <span th:case="1">Datos Generales</span>
+                  <span th:case="2">Discapacidad Física</span>
+                  <span th:case="3">Discapacidad Auditiva</span>
+                  <span th:case="4">Discapacidad Visual</span>
+                  <span th:case="5">Discapacidad Intelectual</span>
+                  <span th:case="6">Discapacidad Psicosocial</span>
+                  <span th:case="7">Discapacidad Múltiple</span>
+                </h5>
+              </div>
+
+              <div class="card-body">
+                <div th:each="question : ${questions}" class="mb-3">
+                  <!-- Corregido: question.description -->
+                  <label class="font-weight-bold text-secondary d-block mb-2"
+                         th:text="${question.description}"></label>
+
+                  <!-- Con opciones -->
+                  <div th:if="${question.answerOptions != null and !#lists.isEmpty(question.answerOptions)}">
+                    <select class="form-control mb-2"
+                            th:name="'question_' + ${question.id}"
+                            th:id="'resp' + ${question.id}"
+                            th:attr="onchange='displayOther('+${question.id}+');'">
+                      <option value="">Seleccione...</option>
+                      <option th:each="opt : ${question.answerOptions}"
+                              th:value="${opt.id}"
+                              th:text="${opt.text}"
+                              th:selected="${responsesByQuestionId != null and responsesByQuestionId.containsKey(question.id) and responsesByQuestionId[question.id].contains(opt.id)}">
+                      </option>
+                    </select>
+
+                    <!-- Campo para "Otro" -->
+                    <input type="text"
+                           th:id="'otro' + ${question.id}"
+                           th:name="'manual_' + ${question.id}"
+                           class="form-control"
+                           placeholder="Especifique aquí"
+                           style="display:none;"
+                           th:value="${responsesByQuestionId != null && responsesByQuestionId.containsKey(question.id) ? '' : ''}" />
+                  </div>
+
+                  <!-- Sin opciones: solo input -->
+                  <div th:if="${question.answerOptions == null or #lists.isEmpty(question.answerOptions)}">
+                    <input class="form-control"
+                           type="text"
+                           th:name="'manual_' + ${question.id}"
+                           placeholder="Escriba su respuesta" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Navegación -->
+            <div class="text-center mb-4">
+              <button th:if="${currentSection != null and currentSection > 1}"
+                      type="button" class="btn btn-secondary"
+                      onclick="submitWithAction('prev')">
+                ← Atrás
+              </button>
+
+              <button th:if="${currentSection != null and currentSection < 7}"
+                      type="button" class="btn btn-primary"
+                      onclick="submitWithAction('next')">
+                Siguiente →
+              </button>
+
+              <button th:if="${currentSection == 7}"
+                      type="button" class="btn btn-success"
+                      onclick="submitWithAction('finish')">
+                Guardar Encuesta
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"></div>
+  </div>
+</div>
+
+<!-- JS -->
+<script th:inline="javascript">
+  function submitWithAction(action) {
+    document.getElementById('actionField').value = action;
+    document.getElementById('surveyForm').submit();
+  }
+  function displayOther(id) {
+    var sel = document.getElementById('resp' + id);
+    var txt = document.getElementById('otro' + id);
+    if (!sel || !txt) return;
+    var selectedText = sel.options[sel.selectedIndex].text || '';
+    txt.style.display = selectedText.trim().toLowerCase().startsWith('otro') ? 'block' : 'none';
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <title>Lista de Organizaciones</title>
+    <link href="/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/css/mycss.css" rel="stylesheet">
+    <link href="/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+</head>
+<body id="page-top">
+<div id="wrapper">
+    <div th:insert="fragments/navbar :: navbar" class="navbar-body"></div>
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div th:insert="fragments/topBar :: topBar"></div>
+
+        <div id="content" class="container-fluid">
+            <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                <h2>Lista de Organizaciones</h2>
+                <a th:href="@{/organization/organizationForm}" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Nueva Organización
+                </a>
+            </div>
+
+            <div th:if="${ok}" class="alert alert-success" th:text="${ok}"></div>
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Dirección</th>
+                                <th>Correo</th>
+                                <th>Teléfono</th>
+                                <th>Fecha de fundación</th>
+                                <th>Actividad de la organización</th>
+                                <th>Sector al que pertenece</th>
+                                <th>Número de trabajadores</th>
+                                <th>Trabajador a cargo</th>
+                                <th>Cargo</th>
+                                <th>Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:if="${#lists.isEmpty(organizationList)}">
+                                <td colspan="11" class="text-center">No hay organizaciones disponibles</td>
+                            </tr>
+
+                            <tr th:each="organization : ${organizationList}">
+                                <td th:text="${organization.name}">Nombre</td>
+                                <td th:text="${organization.address}">Dirección</td>
+                                <td th:text="${organization.email}">correo@ejemplo.com</td>
+                                <td th:text="${organization.phone}">0000000</td>
+                                <td th:text="${organization.creationDate}">dd/MM/yyyy</td>
+                                <td th:text="${organization.economicActivity}">Actividad</td>
+                                <td th:text="${organization.economicArea != null ? organization.economicArea.name : ''}">Sector</td>
+                                <td th:text="${organization.quantityEmployees}">0</td>
+                                <td th:text="${organization.worker}">Trabajador</td>
+                                <td th:text="${organization.workerPosition}">Cargo</td>
+                                <td class="text-center" style="white-space:nowrap;">
+                                    <a th:href="@{/organization/updateOrganizationForm(name=${organization.name})}"
+                                       class="btn btn-sm btn-outline-primary" title="Editar organización">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a th:href="@{/organization/deleteOrganization(name=${organization.name})}"
+                                       class="btn btn-sm btn-outline-danger" title="Eliminar organización"
+                                       onclick="return confirm('¿Eliminar «' + /*[[${organization.name}]]*/'' + '»?');">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div th:insert="fragments/footer :: footer"></div>
+    </div>
+</div>
+
+<div th:insert="fragments/topBar :: logoutModal"></div>
+<a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+
+<script src="/jquery/jquery.min.js"></script>
+<script src="/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/js/sb-admin-2.min.js"></script>
+<script src="/datatables/jquery.dataTables.min.js"></script>
+<script src="/datatables/dataTables.bootstrap4.min.js"></script>
+<script src="/js/demo/datatables-demo.js"></script>
+</body>
+</html>

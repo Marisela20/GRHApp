@@ -1,0 +1,280 @@
+.send-survey{
+     width:30%;
+     margin:0 auto;
+     padding:10px;
+}
+ .index-container {
+     height: 100vh;
+     width: 100%;
+}
+ .policy-main{
+     width:100%;
+     height:102.7vh;
+     background:#263239;
+}
+ footer.sticky-footer {
+     padding: 0rem 0;
+     padding-top:10px;
+     height:100px;
+     width: 100%;
+}
+ .sticky-footer>img {
+     height:100px;
+     left:47%;
+     position:absolute;
+}
+ .uniminuto-login{
+     float: right;
+     right: 20%;
+     position: relative;
+}
+ .ceipa-login{
+     height: 100px;
+     position: relative;
+     left: 10%;
+}
+ .navbar-body{
+     display: contents;
+     max-height: 100%;
+}
+ .navbar-border{
+     border-right-style: solid;
+     border-right-color: #093a49;
+     border-right-width: 2.5px;
+}
+ .a-dark-color {
+     color:#093a4a;
+}
+ .navbar-body li:hover{
+     background-color: #eaecf4
+}
+ .sidebar-dark .nav-item .nav-link[data-toggle=collapse]::after {
+     color: rgb(9 58 74);
+}
+ .summary {
+     position: absolute;
+     top: 22%;
+     left: 21%;
+     color: black;
+     background: #ffffff87;
+     border-radius: 7px;
+     width:55%;
+}
+
+
+ @media (max-width: 1300px) {
+
+ .sidebar {
+     width: 15rem !important;
+ }
+
+     .sticky-footer>img {
+         height: 100px;
+         left: 20%;
+    }
+     .login-c-image{
+         display:none;
+    }
+     .index-header{
+         width: 100%;
+         height: 15%;
+    }
+     .index-header>img {
+         max-height:100%;
+    }
+     .index-hands{
+         width: 100%;
+         height: 70%;
+         background: #0a3947;
+    }
+     .index-hands>img {
+         width: 100%;
+         height: 100%;
+    }
+     .login-button{
+         right: 2%;
+         position: absolute;
+         top: 4%;
+         font-size:20px;
+    }
+     .index-footer {
+         width:100%;
+         height:15%;
+    }
+     .index-footer>img{
+         max-width:100%;
+         bottom:1%;
+         position:absolute;
+    }
+     .summary {
+         position: absolute;
+         top: 22%;
+         left: 1%;
+         rigth:1%;
+         color: black;
+         background: #ffffff87;
+         border-radius: 7px;
+         width:55%;
+    }
+}
+ @media (min-width:1300px) and (max-width: 1500px) {
+     .sticky-footer>img {
+         height: 100px;
+         left: 40%;
+    }
+     .summary {
+         position: absolute;
+         top: 22%;
+         left: 21%;
+         color: black;
+         background: #ffffff87;
+         border-radius: 7px;
+         width: 55%;
+    }
+     .index-header{
+         width: 100%;
+         height: 15%;
+    }
+     .index-header>img {
+         max-height:100%;
+         margin-left: 18%;
+    }
+     .index-hands{
+         width: 100%;
+         height: 70%;
+         background: #0a3947;
+    }
+     .index-hands>img {
+         width: 63%;
+         height: 100%;
+         margin-left: 18%;
+    }
+     .login-button{
+         right: 20%;
+         position: absolute;
+         top: 5%;
+    }
+     .index-footer {
+         width:100%;
+         height:15%;
+    }
+     .index-footer>img{
+         height: 23%;
+         bottom: 0.1%;
+         position: absolute;
+         left: 33%;
+    }
+     .h-custom {
+         height: calc(94% - 73px);
+    }
+     .logo-style {
+         width: 17%;
+         height: 23%;
+         position: absolute;
+         left: 1%;
+    }
+     .login-logo-style {
+         width: 25%;
+         height: 32%;
+         position: absolute;
+         right: 16%;
+         top: 1%;
+    }
+     .login-form{
+         top:18%;
+    }
+     .policy-container {
+         position: relative;
+         top: 15%;
+         left: 20%;
+         margin: -25px 0 0 -25px;
+         background: #f3f3f3;
+         text-align: center;
+         width: 60%;
+         height: 71%;
+         border-radius: 15px;
+         padding: 30px;
+    }
+}
+ @media (min-width: 1500px) {
+     .login-footer>footer .sticky-footer>img {
+         height: 100px;
+         left: 40%;
+    }
+     .summary {
+         position: absolute;
+         top: 22%;
+         left: 21%;
+         color: black;
+         background: #ffffff87;
+         border-radius: 7px;
+         width:55%;
+    }
+     .index-header{
+         width: 100%;
+         height: 15%;
+    }
+     .index-header>img {
+         max-height:100%;
+         margin-left: 18%;
+    }
+     .index-hands{
+         width: 100%;
+         height: 70%;
+         background: #0a3947;
+    }
+     .index-hands>img {
+         width: 63%;
+         height: 100%;
+         margin-left: 18%;
+    }
+     .login-button{
+         right: 20%;
+         position: absolute;
+         top: 5%;
+    }
+     .index-footer {
+         width:100%;
+         height:15%;
+    }
+     .index-footer>img{
+         height: 23%;
+         bottom: 0.1%;
+         position: absolute;
+         left: 33%;
+    }
+     .index-uniminuto>img {
+         margin-left:30%;
+    }
+     .policy-container {
+         position:relative;
+         top: 20%;
+         left: 25%;
+         margin: -25px 0 0 -25px;
+         background: #f3f3f3;
+         text-align: center;
+         width: 50%;
+         height: 50%;
+         border-radius: 15px;
+         padding:60px;
+    }
+     .login-form{
+         top:10%;
+    }
+     .h-custom {
+         height: calc(96% - 73px);
+    }
+     .logo-style {
+         width: 16%;
+         height: 20%;
+         position: absolute;
+         left: 1%;
+    }
+     .login-logo-style {
+         width: 25%;
+         height: 32%;
+         position: absolute;
+         right: 13%;
+         top: 5%;
+    }
+}

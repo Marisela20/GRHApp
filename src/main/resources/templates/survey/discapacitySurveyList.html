@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Lista de Diagnósticos - Inclusión Laboral</title>
+    <link th:href="@{/fontawesome-free/css/all.min.css}" rel="stylesheet">
+    <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
+    <link th:href="@{/css/mycss.css}" rel="stylesheet">
+    <link th:href="@{/datatables/dataTables.bootstrap4.min.css}" rel="stylesheet">
+</head>
+<body id="page-top">
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <div th:insert="fragments/navbar :: navbar" class="navbar-body"></div>
+
+    <!-- Contenido -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <div th:insert="fragments/topBar :: topBar"></div>
+
+        <div id="content">
+            <div class="container-fluid">
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h2>Lista de Diagnósticos - Inclusión Laboral</h2>
+                    <a class="btn btn-info"
+                       th:href="@{/survey/export(diagnosticId=${diagnosticId})}">
+                        Exportar resultados
+                    </a>
+                </div>
+
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Usuario</th>
+                                    <th>Organización</th>
+                                    <th>Estado</th>
+                                    <th>Fecha</th>
+                                    <th style="width:120px;">Acciones</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:if="${surveyList == null or #lists.isEmpty(surveyList)}">
+                                    <td colspan="6">No hay encuestas diligenciadas</td>
+                                </tr>
+
+                                <tr th:each="survey : ${surveyList}">
+                                    <td th:text="${survey.id}">1</td>
+                                    <td th:text="${survey.userAccount?.username}">usuario</td>
+                                    <td th:text="${survey.userAccount?.organization?.name} ?: 'Sin organización'">org</td>
+                                    <td th:text="${survey.completedStatus} ? 'Finalizada' : 'En Progreso'">estado</td>
+                                    <td th:text="${#dates.format(survey.createdAt, 'dd-MM-yyyy')}">fecha</td>
+                                    <td class="text-center">
+
+                                        <!-- Ver resultados (solo si finalizada) -->
+                                        <a th:if="${survey.completedStatus}"
+                                           th:href="@{/survey/viewResult/{surveyId}(surveyId=${survey.id})}"
+                                           class="btn btn-sm btn-info"
+                                           title="Ver resultados">
+                                            <i class="fas fa-chart-pie" aria-hidden="true"></i>
+                                            <span class="sr-only">Ver resultados</span>
+                                        </a>
+
+                                        <!-- Eliminar (POST + CSRF) -->
+                                        <form th:action="@{/survey/discapacitySurvey/delete/{id}(id=${survey.id})}"
+                                              method="post" style="display:inline"
+                                              onsubmit="return confirm('¿Está seguro de que desea eliminar este diagnóstico? Esta acción no se puede deshacer.');">
+                                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                                            <button type="submit" class="btn btn-sm btn-danger" title="Eliminar encuesta">
+                                                <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                                                <span class="sr-only">Eliminar</span>
+                                            </button>
+                                        </form>
+
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div th:insert="fragments/footer :: footer"></div>
+    </div>
+</div>
+
+<!-- Logout Modal -->
+<div th:insert="fragments/topBar :: logoutModal"></div>
+
+<!-- Scroll Button -->
+<a class="scroll-to-top rounded" href="#page-top"><i class="fas fa-angle-up"></i></a>
+
+<!-- Scripts -->
+<script th:src="@{/jquery/jquery.min.js}"></script>
+<script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/sb-admin-2.min.js}"></script>
+<script th:src="@{/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/datatables/dataTables.bootstrap4.min.js}"></script>
+<script th:src="@{/js/demo/datatables-demo.js}"></script>
+
+</body>
+</html>
