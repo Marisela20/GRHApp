@@ -27,6 +27,14 @@ RUN mvn -DskipTests clean package
 
 # ============ STAGE 3: runtime liviano ============
 FROM eclipse-temurin:11-jre
+# ============ STAGE 3: runtime (puerto dinámico) ============
+FROM eclipse-temurin:11-jre
+WORKDIR /app
+COPY --from=backend-build /workspace/target/*.jar app.jar
+
+# Importante: NO fijes ENV PORT=8080 ni EXPOSE 8080.
+# Escucha en el puerto que Railway inyecta en $PORT.
+CMD ["sh","-c","java -Dserver.port=$PORT -Dserver.address=0.0.0.0 -jar app.jar"]
 WORKDIR /app
 # Copiar JAR final
 COPY --from=backend-build /workspace/target/*.jar app.jar
