@@ -107,7 +107,7 @@ INSERT INTO survey_item (id,description,classification_id, is_question, section,
 (24,'¿En la organización se plantean estrategias de gestión de conocimiento para el proceso de mejora?',5,1,1,0);
 
 
-INSERT INTO grhdatabase.survey_item (id,description,classification_id,father_id, is_question, section, is_sublevel) VALUES
+INSERT INTO survey_item (id,description,classification_id,father_id, is_question, section, is_sublevel) VALUES
 (29,'La GRH de la organización utiliza herramientas tecnológicas para aumentar su desempeño.',1,1,0,1,0),
 (30,'La GRH de la organización No apoya sus procesos con el uso de herramientas tecnológicas.',1,1,0,1,0),
 
@@ -182,7 +182,7 @@ INSERT INTO grhdatabase.survey_item (id,description,classification_id,father_id,
 (78,'La gestión del conocimiento se ha convertido en una estrategia clave del negocio.',5,24,0,1,0),
 (79,'La organización No cuenta con una estrategia definida de gestión del conocimiento.',5,24,0,1,0);
 
-INSERT INTO grhdatabase.survey_item (id,description,classification_id, is_question, section, is_sublevel, score) VALUES
+INSERT INTO survey_item (id,description,classification_id, is_question, section, is_sublevel, score) VALUES
 (80,'Cumplir los objetivos y desempeño del trabajador.',7,0,1,1,1),
 (81,'La satisfacción de las necesidades básicas de los trabajadores de forma general.',7,0,1,1,2),
 (82,'La satisfacción de las necesidades básicas y superiores de los trabajadores teniendo en cuenta la diversidad e inclusión.',7,0,1,1,3),
@@ -245,7 +245,7 @@ INSERT INTO economic_area (id, description) VALUES (1,'Agrícola'),(2,'Industria
 
 INSERT INTO user (name, username, password,role_id) VALUES ('Admin', 'admin.ceipa@gmail.com', '$2a$10$wlIBCivgFLfjHJIkTccEmOJjjsSRv5vvJuxYPXw9pVBl2quUPB/Iq', 'ADMIN');
 
-INSERT INTO grhdatabase.survey_item (id,description,classification_id,father_id, is_question, section, is_sublevel) VALUES
+INSERT INTO survey_item (id,description,classification_id,father_id, is_question, section, is_sublevel) VALUES
 (116,'La estructura organizacional desde la perspectiva del trabajador está orientada a:',7,5,1,1,1),
 (117,'La estructura organizacional desde la perspectiva empresarial está enfocada en:',8,5,1,1,1),
 (118,'La estructura organizacional se gestiona y mantiene actualizada utilizando principalmente:',9,5,1,1,1),
