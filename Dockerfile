@@ -25,21 +25,11 @@ COPY --from=frontend-build /app/frontend/dist/ ./src/main/resources/static/
 # Empaquetar la app (el JAR ya incluye los estáticos)
 RUN mvn -DskipTests clean package
 
-# ============ STAGE 3: runtime liviano ============
-FROM eclipse-temurin:11-jre
-# ============ STAGE 3: runtime (puerto dinámico) ============
+# ============ STAGE 3: runtime (puerto dinámico de Railway) ============
 FROM eclipse-temurin:11-jre
 WORKDIR /app
 COPY --from=backend-build /workspace/target/*.jar app.jar
-
-# Importante: NO fijes ENV PORT=8080 ni EXPOSE 8080.
-# Escucha en el puerto que Railway inyecta en $PORT.
-CMD ["sh","-c","java -Dserver.port=$PORT -Dserver.address=0.0.0.0 -jar app.jar"]
-WORKDIR /app
-# Copiar JAR final
-COPY --from=backend-build /workspace/target/*.jar app.jar
-# Railway establece $PORT, lo usamos para server.port
-ENV PORT=8080
-EXPOSE 8080
-CMD ["bash", "-lc", "java -Dserver.port=${PORT} -jar app.jar"]
+# No declares EXPOSE ni ENV PORT fijos: Railway te inyecta $PORT
+# Forzamos a Spring Boot a escuchar en el puerto que da Railway
+CMD ["sh","-c","echo \"PORT=$PORT\" && java -Dserver.port=$PORT -Dserver.address=0.0.0.0 -jar app.jar"]
 
