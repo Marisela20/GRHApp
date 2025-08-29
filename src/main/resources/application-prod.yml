@@ -3,9 +3,6 @@ server:
   address: 0.0.0.0
 
 spring:
-  profiles:
-    active: prod
-
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
@@ -23,7 +20,7 @@ spring:
 
   flyway:
     locations: classpath:db/migration
-    out-of-order: false
+    # Modo tolerante solo para levantar ahora mismo
     validate-on-migrate: false
     ignore-missing-migrations: true
     ignore-pending-migrations: true
@@ -31,4 +28,3 @@ spring:
 logging:
   level:
     org.flywaydb: DEBUG
-
