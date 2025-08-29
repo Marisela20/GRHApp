@@ -1,10 +1,10 @@
 server:
-  port: ${PORT:8080}   # usa PORT de Railway, con 8080 por defecto
+  port: 8080           # Railway internal port = 8080
   address: 0.0.0.0
 
 spring:
   datasource:
-    # puedes definir SPRING_DATASOURCE_URL en Railway o dejar que use las vars MYSQLHOST, etc.
+    # Usa SPRING_DATASOURCE_* si están definidos; si no, toma las vars de MySQL de Railway.
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://${MYSQLHOST}:${MYSQLPORT:3306}/${MYSQLDATABASE}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8}
     username: ${SPRING_DATASOURCE_USERNAME:${MYSQLUSER}}
     password: ${SPRING_DATASOURCE_PASSWORD:${MYSQLPASSWORD}}
@@ -12,9 +12,9 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: validate         # valida el esquema contra las entidades
+      ddl-auto: none        # en prod, no validar/crear; ya alineamos el esquema
     open-in-view: false
-    show-sql: false              # en prod mejor oculto
+    show-sql: false
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
@@ -22,11 +22,20 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
-    baseline-on-migrate: true    # si ya existen tablas
+    baseline-on-migrate: true
     validate-on-migrate: true
     out-of-order: false
     clean-disabled: true
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+
 logging:
   level:
-    org.flywaydb: DEBUG
+    org.flywaydb: INFO
