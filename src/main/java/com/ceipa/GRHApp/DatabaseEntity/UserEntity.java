@@ -3,11 +3,10 @@ package com.ceipa.GRHApp.DatabaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user")
+@Table(name = "`user`") // ← comillas invertidas para nombre reservado
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,13 +14,13 @@ public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")        // explícito
     private Integer id;
 
     @Column(nullable = false, unique = true)
     private String username;
 
     private String name;
-
     private String password;
 
     @ManyToOne
