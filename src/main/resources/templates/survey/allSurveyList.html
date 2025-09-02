@@ -55,20 +55,22 @@
                                     <!-- índice: lo rellena DataTables -->
                                     <td class="row-index"></td>
 
-                                    <td th:text="${s.userAccount != null ? s.userAccount.username : '—'}">—</td>
+                                    <!-- Para evitar errores por campos inexistentes, mostramos un valor seguro: el ID del usuario -->
+                                    <td th:text="${s.user != null ? s.user.id : '—'}">—</td>
 
                                     <!-- Mapear diagnosticId -> nombre visible -->
                                     <td th:text="${s.diagnosticId == 1 ? 'Personas +B' : (s.diagnosticId == 3 ? 'Inclusión Laboral' : '—')}">—</td>
 
-                                    <td th:text="${(s.userAccount != null and s.userAccount.organization != null) ? s.userAccount.organization.name : '—'}">—</td>
+                                    <!-- Organización (si tu UserEntity tiene 'organization') -->
+                                    <td th:text="${(s.user != null and s.user.organization != null) ? s.user.organization.name : '—'}">—</td>
 
                                     <td>
                                         <span th:if="${#bools.isTrue(s.completedStatus)}" class="badge badge-success">Finalizada</span>
                                         <span th:if="${#bools.isFalse(s.completedStatus)}" class="badge badge-warning">En Progreso</span>
                                     </td>
 
-                                    <!-- Usa createdAt si existe; si no, usa date -->
-                                    <td th:text="${s.createdAt != null ? #dates.format(s.createdAt,'dd-MM-yyyy') : (s.date != null ? #dates.format(s.date,'dd-MM-yyyy') : '—')}">—</td>
+                                    <!-- Fecha: usa 'date' que sí existe en SurveyEntity -->
+                                    <td th:text="${s.date != null ? #dates.format(s.date,'dd-MM-yyyy') : '—'}">—</td>
 
                                     <td class="text-nowrap" align="center">
                                         <!-- Ver resultados Personas +B -->
