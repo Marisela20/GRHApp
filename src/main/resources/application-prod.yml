@@ -1,39 +1,24 @@
 server:
-<<<<<<< HEAD
-  port: 8080           # Railway internal port = 8080
-=======
->>>>>>> 8d90520 (deploy a prod)
   address: 0.0.0.0
-  port: ${PORT:8080}   # usa PORT que inyecta Railway, con 8080 por defecto
+  port: ${PORT:8080}   # Railway inyecta PORT; por defecto 8080 en local
 
 spring:
   datasource:
-<<<<<<< HEAD
-    # Usa SPRING_DATASOURCE_* si están definidos; si no, toma las vars de MySQL de Railway.
+    # Usa SPRING_DATASOURCE_URL si la defines; si no, toma las vars nativas de Railway (MYSQLHOST, etc.)
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://${MYSQLHOST}:${MYSQLPORT:3306}/${MYSQLDATABASE}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8}
-=======
-    # Usa SPRING_DATASOURCE_URL si lo defines; si no, toma las vars nativas de Railway (MYSQLHOST, etc.)
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://${MYSQLHOST}:${MYSQLPORT:3306}/${MYSQLDATABASE}?sslMode=REQUIRED&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8}
->>>>>>> 8d90520 (deploy a prod)
     username: ${SPRING_DATASOURCE_USERNAME:${MYSQLUSER}}
     password: ${SPRING_DATASOURCE_PASSWORD:${MYSQLPASSWORD}}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
-<<<<<<< HEAD
-    hibernate:
-      ddl-auto: none        # en prod, no validar/crear; ya alineamos el esquema
-    open-in-view: false
-    show-sql: false
-=======
     open-in-view: false
     show-sql: false
     hibernate:
-      ddl-auto: none
->>>>>>> 8d90520 (deploy a prod)
+      ddl-auto: validate       # con Flyway, lo recomendado en prod es 'validate'
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+        format_sql: true
 
   flyway:
     enabled: true
@@ -54,4 +39,6 @@ management:
 
 logging:
   level:
+    root: INFO
     org.flywaydb: INFO
+	
