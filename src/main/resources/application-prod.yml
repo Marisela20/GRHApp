@@ -1,10 +1,10 @@
 server:
   address: 0.0.0.0
-  port: ${PORT:8080}   # Railway inyecta PORT; por defecto 8080 en local
+  port: ${PORT:8080}
 
 spring:
   datasource:
-    # Usa SPRING_DATASOURCE_URL si la defines; si no, toma las vars nativas de Railway (MYSQLHOST, etc.)
+    # Usa SPRING_DATASOURCE_URL si existe; si no, toma las MYSQL* de Railway
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://${MYSQLHOST}:${MYSQLPORT:3306}/${MYSQLDATABASE}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&characterEncoding=UTF-8}
     username: ${SPRING_DATASOURCE_USERNAME:${MYSQLUSER}}
     password: ${SPRING_DATASOURCE_PASSWORD:${MYSQLPASSWORD}}
@@ -14,7 +14,7 @@ spring:
     open-in-view: false
     show-sql: false
     hibernate:
-      ddl-auto: validate       # con Flyway, lo recomendado en prod es 'validate'
+      ddl-auto: validate
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
@@ -41,4 +41,3 @@ logging:
   level:
     root: INFO
     org.flywaydb: INFO
-	
