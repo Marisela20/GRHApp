@@ -5,6 +5,7 @@ import com.ceipa.GRHApp.Model.Classification;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValueCheckStrategy;
 import org.mapstruct.ReportingPolicy;
+import java.util.List;
 
 @Mapper(
         componentModel = "spring",
@@ -13,5 +14,9 @@ import org.mapstruct.ReportingPolicy;
 )
 public interface ClassificationMapper {
 
-    Classification mapClassificationEntityToClassification(ClassificationEntity classificationEntity);
+    // ÚNICO método elemento -> evita ambigüedad
+    Classification toModel(ClassificationEntity entity);
+
+    // Lista (opcional, MapStruct la infiere, pero puedes declararla)
+    List<Classification> toModelList(List<ClassificationEntity> entities);
 }

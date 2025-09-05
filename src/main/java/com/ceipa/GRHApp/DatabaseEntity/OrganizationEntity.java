@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name="organization", schema="grhdatabase")
+@Table(name="organization")
 public class OrganizationEntity {
 
     @Id

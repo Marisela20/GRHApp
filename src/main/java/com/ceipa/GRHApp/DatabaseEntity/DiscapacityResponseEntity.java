@@ -3,11 +3,12 @@ package com.ceipa.GRHApp.DatabaseEntity;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
+@lombok.Getter
+@lombok.Setter
 @Entity
 @Table(
         name = "discapacity_response",
         uniqueConstraints = {
-                // Evita duplicados de borrador por (encuesta, pregunta, usuario, sección, borrador)
                 @UniqueConstraint(
                         name = "uq_resp_draft",
                         columnNames = {"survey_id", "question_id", "user_id", "section", "is_draft"}
@@ -35,6 +36,8 @@ public class DiscapacityResponseEntity {
     @Column(name = "manual_text")
     private String manualText;
 
+    // Quitar @Lob y columnDefinition para que mapee a VARCHAR (como está en tu BD)
+    // Si tu columna tiene un tamaño definido (p.ej. 255, 1024), puedes añadir length = ...
     @Column(name = "free_text")
     private String freeText;
 
@@ -45,12 +48,10 @@ public class DiscapacityResponseEntity {
     @Column(name = "created_at")
     private Timestamp createdAt;
 
-    // Campo histórico que ya tenías; si no se usa, puedes quitarlo luego
+    // Campo histórico (si se usa aún, se mantiene)
     @ManyToOne
     @JoinColumn(name = "answer_id")
     private DiscapacityAnswerOptionEntity answer;
-
-    // ======== NUEVOS CAMPOS PARA BORRADORES POR SECCIÓN ========
 
     @Column(name = "is_draft", nullable = false)
     private Boolean isDraft = Boolean.TRUE;
@@ -58,8 +59,7 @@ public class DiscapacityResponseEntity {
     @Column(name = "section", nullable = false)
     private Integer section = 1;
 
-    // ================== Getters y Setters ==================
-
+    // Getters/Setters explícitos opcionales (Lombok ya los genera)
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 

@@ -2,24 +2,23 @@ package com.ceipa.GRHApp.Mapper;
 
 import com.ceipa.GRHApp.DatabaseEntity.SurveyItemEntity;
 import com.ceipa.GRHApp.Model.SurveyItem;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.NullValueCheckStrategy;
+import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
-@Mapper(
-        componentModel = "spring",
-        uses = {ClassificationMapper.class},
+@Mapper(componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.WARN,
-        nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS
-)
+        nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface SurveyItemMapper {
 
-    List<SurveyItem> mapSurveyItemEntityListToSurveyItemList(List<SurveyItemEntity> surveyItemEntityList);
+    // Nuevos
+    SurveyItem toModel(SurveyItemEntity entity);
+    List<SurveyItem> toModelList(List<SurveyItemEntity> entities);
 
-    @Mappings({
-            @Mapping(target = "question", source = "isQuestion"),
-            @Mapping(target = "sublevel", source = "isSublevel"),
-            @Mapping(target = "classification", source = "classification")
-    })
-    SurveyItem surveyItemEntityToSurveyItem(SurveyItemEntity surveyItemEntity);
+    // Antiguo que reclaman los services
+    default List<SurveyItem> mapSurveyItemEntityListToSurveyItemList(List<SurveyItemEntity> entities) {
+        return toModelList(entities);
+    }
 }

@@ -637,10 +637,10 @@ public class SurveyServiceImpl implements SurveyService {
         Integer motivationPoints = Objects.nonNull(motivationP) ? motivationP : 0;
         Integer opportunityPoints = Objects.nonNull(opportunityP) ? opportunityP : 0;
 
-        Classification planningClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(PLANNING));
-        Classification abilityClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(ABILITY));
-        Classification motivationClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(MOTIVATION));
-        Classification opportunityClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(OPPORTUNITY));
+        Classification planningClassification = classificationMapper.toModel(classificationRepository.getById(PLANNING));
+        Classification abilityClassification = classificationMapper.toModel(classificationRepository.getById(ABILITY));
+        Classification motivationClassification = classificationMapper.toModel(classificationRepository.getById(MOTIVATION));
+        Classification opportunityClassification = classificationMapper.toModel(classificationRepository.getById(OPPORTUNITY));
 
         float planningPercentage = getPercentage(planningPoints, planningClassification.getTotalPoints());
         float abilityPercentage = getPercentage(abilityPoints, abilityClassification.getTotalPoints());
@@ -701,12 +701,12 @@ public class SurveyServiceImpl implements SurveyService {
         Integer ethicsGrhLevelPoints = Objects.isNull(ethicsGrhLevel)? 0: ethicsGrhLevel;
         Integer internationalGrhLevelPoints = Objects.isNull(internationalGrhLevel)? 0: internationalGrhLevel;
 
-        Classification workLevelClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(WORK_LEVEL_CLASSIFICATION));
-        Classification organizationClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(ORGANIZATION_CLASSIFICATION));
-        Classification technologyClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(TECHNOLOGY_CLASSIFICATION));
-        Classification sustainabilityClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(SUSTAINABILITY_CLASSIFICATION));
-        Classification ethicsGrhClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(ETHICS_GRH_CLASSIFICATION));
-        Classification internationalGrhClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(INTERNATIONAL_GRH_CLASSIFICATION));
+        Classification workLevelClassification = classificationMapper.toModel(classificationRepository.getById(WORK_LEVEL_CLASSIFICATION));
+        Classification organizationClassification = classificationMapper.toModel(classificationRepository.getById(ORGANIZATION_CLASSIFICATION));
+        Classification technologyClassification = classificationMapper.toModel(classificationRepository.getById(TECHNOLOGY_CLASSIFICATION));
+        Classification sustainabilityClassification = classificationMapper.toModel(classificationRepository.getById(SUSTAINABILITY_CLASSIFICATION));
+        Classification ethicsGrhClassification = classificationMapper.toModel(classificationRepository.getById(ETHICS_GRH_CLASSIFICATION));
+        Classification internationalGrhClassification = classificationMapper.toModel(classificationRepository.getById(INTERNATIONAL_GRH_CLASSIFICATION));
 
         float workLevelPercentage = getPercentage(workLevelPoints, workLevelClassification.getTotalPoints());
         float organizationPercentage = getPercentage(organizationLevelPoints, organizationClassification.getTotalPoints());
@@ -788,10 +788,10 @@ public class SurveyServiceImpl implements SurveyService {
 
         if(Objects.nonNull(participationIndexPoints) || Objects.nonNull(consistencyIndexPoints) || Objects.nonNull(adaptabilityIndexIndexPoints) || Objects.nonNull(missionIndexPoints)) {
 
-            Classification participationIndexClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(PARTICIPATION_INDEX_CLASSIFICATION));
-            Classification consistencyIndexClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(CONSISTENCY_INDEX_CLASSIFICATION));
-            Classification adaptabilityIndexClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(ADAPTABILITY_INDEX_CLASSIFICATION));
-            Classification missionIndexClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(MISSION_INDEX_CLASSIFICATION));
+            Classification participationIndexClassification = classificationMapper.toModel(classificationRepository.getById(PARTICIPATION_INDEX_CLASSIFICATION));
+            Classification consistencyIndexClassification = classificationMapper.toModel(classificationRepository.getById(CONSISTENCY_INDEX_CLASSIFICATION));
+            Classification adaptabilityIndexClassification = classificationMapper.toModel(classificationRepository.getById(ADAPTABILITY_INDEX_CLASSIFICATION));
+            Classification missionIndexClassification = classificationMapper.toModel(classificationRepository.getById(MISSION_INDEX_CLASSIFICATION));
 
             float participationIndexPercentage = getPercentage(participationIndexPoints, participationIndexClassification.getTotalPoints());
             float consistencyIndexPercentage = getPercentage(consistencyIndexPoints, consistencyIndexClassification.getTotalPoints());
@@ -915,14 +915,14 @@ public class SurveyServiceImpl implements SurveyService {
             Integer dialogPoints = Objects.nonNull(dialogP) ? dialogP : 0;
             Integer stimulusPoints = Objects.nonNull(stimulusP) ? stimulusP : 0;
 
-            Classification clarityClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(CLARITY_CLASSIFICATION));
-            Classification localDirectionCongruencyClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(LOCAL_DIRECTION_CONGRUENCY_CLASSIFICATION));
-            Classification highDirectionCongruencyClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(HIGH_DIRECTION_CONGRUENCY_CLASSIFICATION));
-            Classification feasibilityClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(FEASIBILITY_CLASSIFICATION));
-            Classification supportClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(SUPPORT_CLASSIFICATION));
-            Classification transparencyClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(TRANSPARENCY_CLASSIFICATION));
-            Classification dialogClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(DIALOG_CLASSIFICATION));
-            Classification stimulusClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(STIMULUS_CLASSIFICATION));
+            Classification clarityClassification = classificationMapper.toModel(classificationRepository.getById(CLARITY_CLASSIFICATION));
+            Classification localDirectionCongruencyClassification = classificationMapper.toModel(classificationRepository.getById(LOCAL_DIRECTION_CONGRUENCY_CLASSIFICATION));
+            Classification highDirectionCongruencyClassification = classificationMapper.toModel(classificationRepository.getById(HIGH_DIRECTION_CONGRUENCY_CLASSIFICATION));
+            Classification feasibilityClassification = classificationMapper.toModel(classificationRepository.getById(FEASIBILITY_CLASSIFICATION));
+            Classification supportClassification = classificationMapper.toModel(classificationRepository.getById(SUPPORT_CLASSIFICATION));
+            Classification transparencyClassification = classificationMapper.toModel(classificationRepository.getById(TRANSPARENCY_CLASSIFICATION));
+            Classification dialogClassification = classificationMapper.toModel(classificationRepository.getById(DIALOG_CLASSIFICATION));
+            Classification stimulusClassification = classificationMapper.toModel(classificationRepository.getById(STIMULUS_CLASSIFICATION));
 
             float clarityPercentage = getPercentage(clarityPoints, clarityClassification.getTotalPoints());
             float localDirectionCongruencyPercentage = getPercentage(localDirectionCongruencyPoints, localDirectionCongruencyClassification.getTotalPoints());
@@ -961,7 +961,7 @@ public class SurveyServiceImpl implements SurveyService {
 
         List<SurveyDetail> organizationPersonAnswer = surveyDetailMapper
                 .mapSurveyDetailEntityListToSurveyDetail(surveyDetailRepository.getByClassificationAndSurveyId(ORGANIZATION_PERSON_ADJUST_CLASSIFICATION, surveyId));
-        Classification organizationPersonClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(ORGANIZATION_PERSON_ADJUST_CLASSIFICATION
+        Classification organizationPersonClassification = classificationMapper.toModel(classificationRepository.getById(ORGANIZATION_PERSON_ADJUST_CLASSIFICATION
         ));
         int totalPointOrganizationPersonAdjust = 0;
         for (SurveyDetail sd: organizationPersonAnswer) {
@@ -988,9 +988,9 @@ public class SurveyServiceImpl implements SurveyService {
         Integer cognitivePoints = Objects.nonNull(cognitiveP) ? cognitiveP : 0;
         Integer behaviouralPoints = Objects.nonNull(behaviouralP) ? behaviouralP : 0;
 
-        Classification emotionalClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(EMOTIONAL_ENGAGEMENT_CLASSIFICATION));
-        Classification cognitiveClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(COGNITIVE_ENGAGEMENT_CLASSIFICATION));
-        Classification behaviouralClassification = classificationMapper.mapClassificationEntityToClassification(classificationRepository.getById(BEHAVIORAL_ENGAGEMENT_CLASSIFICATION));
+        Classification emotionalClassification = classificationMapper.toModel(classificationRepository.getById(EMOTIONAL_ENGAGEMENT_CLASSIFICATION));
+        Classification cognitiveClassification = classificationMapper.toModel(classificationRepository.getById(COGNITIVE_ENGAGEMENT_CLASSIFICATION));
+        Classification behaviouralClassification = classificationMapper.toModel(classificationRepository.getById(BEHAVIORAL_ENGAGEMENT_CLASSIFICATION));
 
         float emotionalPercentage = getPercentage(emotionalPoints, emotionalClassification.getTotalPoints());
         float cognitivePercentage = getPercentage(cognitivePoints, cognitiveClassification.getTotalPoints());

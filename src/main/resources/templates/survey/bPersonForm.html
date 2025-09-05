@@ -54,13 +54,16 @@
                                                     <label th:if="${question.father == null}"
                                                            th:text="${question.description}" class="my-1 mr-2"></label>
                                                     <select class="custom-select my-1 mr-sm-2 form-control"
-                                                            name="answerId" th:id="answer + ${question.id}"
+                                                            name="answerId"
+                                                            th:id="${'answer' + question.id}"
                                                             onchange="save(this);">
                                                         <option selected value="">--</option>
                                                         <option th:each="answer : ${surveyQuestions}"
-                                                                th:if="${answer.father?.id == question.id && !answer.isSublevel}"
+                                                                th:if="${answer.father != null
+                                                                        and answer.father.id == question.id
+                                                                        and (answer.isSublevel != true)}"
                                                                 th:value="${answer.id}"
-                                                                th:text="${answer.description}"/>
+                                                                th:text="${answer.description}"></option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -69,27 +72,30 @@
                                 </form>
                             </div>
 
-                            <div class="col-12" th:id="subLevel">
+                            <div class="col-12" id="subLevel" th:id="subLevel">
                                 <form th:each="subLevelQuestion: ${subLevelQuestions}" class="col-12 bg-white px-4"
                                       th:action="@{/survey/saveSurvey}"
                                       th:object="${survey}" th:id="${subLevelQuestion.id}" method="post">
                                     <input type="hidden" th:field="*{id}" id="subLevelSurveyId"/>
-                                    <div class="mb-4" id="subLevelBodyForm" th:if="${subLevelQuestion.question}">
+                                    <div class="mb-4" id="subLevelBodyForm" th:if="${subLevelQuestion.question == true}">
                                         <div class="card border-left-primary shadow h-100 py-2">
                                             <div class="card-body">
                                                 <div class="form-check mb-2">
-                                                    <label th:if="${subLevelQuestion.question}"
+                                                    <label th:if="${subLevelQuestion.question == true}"
                                                            th:text="${subLevelQuestion.description}"
                                                            class="my-1 mr-2"></label>
                                                     <select class="custom-select my-1 mr-sm-2 form-control"
                                                             name="subLevelAnswerId"
-                                                            th:id="subLevelAnswer + ${subLevelQuestion.id}"
+                                                            th:id="${'subLevelAnswer' + subLevelQuestion.id}"
                                                             onchange="saveSubLevel(this);">
                                                         <option selected value="">--</option>
                                                         <option th:each="subLevelAnswer : ${subLevelQuestions}"
-                                                                th:if="${subLevelAnswer.classification?.id == subLevelQuestion.classification.id && !subLevelAnswer.question}"
+                                                                th:if="${subLevelAnswer.classification != null
+                                                                        and subLevelQuestion.classification != null
+                                                                        and subLevelAnswer.classification.id == subLevelQuestion.classification.id
+                                                                        and (subLevelAnswer.question != true)}"
                                                                 th:value="${subLevelAnswer.id}"
-                                                                th:text="${subLevelAnswer.description}"/>
+                                                                th:text="${subLevelAnswer.description}"></option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -99,8 +105,8 @@
                             </div>
 
                             <div class="col-12">
-                                <button type="button" onclick="goBack()" th:id="backButton" class="btn btn-primary">Atras</button>
-                                <button type="button" onclick="goAhead()" th:id="nextButton" class="btn btn-primary">Siguiente</button>
+                                <button type="button" onclick="goBack()" id="backButton" th:id="backButton" class="btn btn-primary">Atras</button>
+                                <button type="button" onclick="goAhead()" id="nextButton" th:id="nextButton" class="btn btn-primary">Siguiente</button>
                             </div>
                         </div>
                     </div>
@@ -181,7 +187,9 @@
         if (answer.answer.id != 999) {
             $('#answer' + answer.question.id).val(answer.answer.id);
         }
-        $('#subLevelAnswer' + answer.subQuestion.id).val(answer.subAnswer.id);
+        if (answer.subQuestion && answer.subAnswer) {
+            $('#subLevelAnswer' + answer.subQuestion.id).val(answer.subAnswer.id);
+        }
 
         if (answer) {
             $('#nextButton').show();
@@ -195,7 +203,7 @@
 
     console.log(currentAnswerId);
     //validate the currentAnswerId in order to show or hide the sublevels question
-    if ((currentAnswerId > 0 && section != 2) || currentAnswerId === 0 && lastQuestionId === 11) {
+    if ((currentAnswerId > 0 && section != 2) || (currentAnswerId === 0 && lastQuestionId === 11)) {
         if (showSubLevels.length > 0 ) {
             for (const subLevel of showSubLevels) {
                 if (subLevel.answer.id == currentAnswerId) {
@@ -257,7 +265,6 @@
             headers: CSRF_TOKEN && CSRF_HEADER ? { [CSRF_HEADER]: CSRF_TOKEN } : {},
             success: function(data) {
                 console.log("Respuesta guardada con exito");
-                // Si necesitas, aquí puedes actualizar parte del DOM con 'data'
             },
             error: function(xhr, status, errorThrown) {
                 console.log("Ocurrio un error al guardar la respuesta. " + status);

@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name="conclusions", schema="grhdatabase")
+@Table(name="conclusions")
 public class ConclusionEntity {
 
     @Id

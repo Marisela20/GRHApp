@@ -17,8 +17,11 @@ public class DiscapacityAnswerOptionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    // Mantener como VARCHAR. Ajusta length si tu columna tiene otro tamaño.
+    @Column(name = "text", nullable = false, length = 255)
     private String text;
 
+    @Column(name = "score")
     private int score;
 
     @ManyToOne(fetch = FetchType.LAZY)

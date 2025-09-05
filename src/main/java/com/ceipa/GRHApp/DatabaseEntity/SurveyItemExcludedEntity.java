@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name="surveyItemExcluded", schema="grhdatabase")
+@Table(name="surveyItemExcluded")
 public class SurveyItemExcludedEntity {
 
 

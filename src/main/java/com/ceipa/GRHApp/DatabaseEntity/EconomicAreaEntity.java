@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name="economicArea", schema="grhdatabase")
+@Table(name="economicArea")
 public class EconomicAreaEntity {
 
     @Id

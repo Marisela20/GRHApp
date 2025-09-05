@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name="levelPosition", schema="grhdatabase")
+@Table(name="levelPosition")
 public class LevelPositionEntity {
 
     @Id

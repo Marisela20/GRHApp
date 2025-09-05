@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @Entity
-@Table(name="surveyDetail", schema="grhdatabase")
+@Table(name="surveyDetail")
 public class SurveyDetailEntity implements Serializable {
 
     @EmbeddedId

@@ -10,29 +10,44 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "survey_answer_options", schema = "grhdatabase") // ajusta el nombre si es diferente
+@Table(name = "survey_answer_options")
 public class SurveyAnswerOptionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id") // id de la opción
+    @Column(name = "id")
     private int id;
 
-    @Column(name = "text") // texto de la opción
+    @Column(name = "text", nullable = false, length = 500)
     private String text;
 
-    @Column(name = "score") // puntuación asociada a esta opción
-    private Integer score; // ✅ Esto permite null y evita el error
+    @Column(name = "score")
+    private Integer score;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "survey_item_id") // clave foránea que apunta a surveyItem.id
+    // FK correcta según tu tabla: survey_item_id
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(
+            name = "survey_item_id",
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(name = "fk_sao_survey_item")
+    )
     private SurveyItemEntity surveyItem;
 
     public SurveyAnswerOptionEntity(String text, int score) {
         this.text = text;
         this.score = score;
     }
+
+    // ==== Compat: mantiene API "question" usada en servicios/plantillas ====
+    @Transient
+    public SurveyItemEntity getQuestion() {
+        return this.surveyItem;
+    }
+
+    public void setQuestion(SurveyItemEntity question) {
+        this.surveyItem = question;
+    }
+    // ======================================================================
 
     @Override
     public String toString() {

@@ -9,7 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "survey_item", schema = "grhdatabase")
+@Table(name = "survey_item")
 public class SurveyItemEntity {
 
     @Id

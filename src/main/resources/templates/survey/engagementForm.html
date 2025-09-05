@@ -52,7 +52,7 @@
                                                             onchange="save(this);">
                                                         <option selected value="">--</option>
                                                         <option th:each="answer : ${surveyQuestions}"
-                                                                th:if="${answer.father?.id == question.id && !answer.isSublevel}"
+                                                                th:if="${answer.father != null and question != null and answer.father.id == question.id and (answer.isSublevel != true)}"
                                                                 th:value="${answer.id}"
                                                                 th:text="${answer.description}"/>
                                                     </select>
